@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MainController;
 use App\Http\Controllers\Site1Controller;
+use App\Http\Controllers\Site2Controller;
+use App\Http\Controllers\Site3Controller;
 use App\Http\Controllers\SiteController;
 
 // Route::get('url', 'Action');
@@ -100,4 +102,22 @@ Route::get('/contact', [MainController::class, 'contact'])->name('main.contact')
 // ---------------------------------------- //
 // Route::get('abdullah', [abdullah::class, 'new'])->name('abdullah.new');
 
-Route::get('site1/about/new/ali', [Site1Controller::class, 'index'])->name('site1.index');
+Route::get('site1', [Site1Controller::class, 'index'])->name('site1.index');
+
+
+Route::prefix('site2')->name('site2.')->group(function() {
+    Route::get('/', [Site2Controller::class, 'index'])->name('index');
+    Route::get('/about', [Site2Controller::class, 'about'])->name('about');
+    Route::get('/contact', [Site2Controller::class, 'contact'])->name('contact');
+    Route::get('/post', [Site2Controller::class, 'post'])->name('post');
+});
+
+
+Route::prefix('site3')->name('site3.')->group(function() {
+    Route::get('/', [Site3Controller::class, 'about'])->name('about');
+    Route::get('/experience', [Site3Controller::class, 'experience'])->name('experience');
+    Route::get('/educations', [Site3Controller::class, 'educations'])->name('educations');
+    Route::get('/skills', [Site3Controller::class, 'skills'])->name('skills');
+    Route::get('/interests', [Site3Controller::class, 'interests'])->name('interests');
+    Route::get('/awards', [Site3Controller::class, 'awards'])->name('awards');
+});
