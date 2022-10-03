@@ -1,5 +1,7 @@
 @extends('site3.master')
 
+@section('title', 'Education - Resume')
+
 @section('abc')
     <!-- Education-->
     <section class="resume-section" id="education">

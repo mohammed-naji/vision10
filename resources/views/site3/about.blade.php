@@ -1,6 +1,8 @@
 
 @extends('site3.master')
 
+@section('title', 'About Us - Resume')
+
 @section('abc')
             <!-- About-->
             <section class="resume-section" id="about">
@@ -23,3 +25,7 @@
                 </div>
             </section>
 @stop
+
+{{-- @section('title')
+    About Us - Resume
+@stop --}}
