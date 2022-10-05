@@ -8,22 +8,40 @@
   </head>
   <body>
 
+
+
     <div class="container mt-5">
+        {{-- @dump($errors)
+        @dump($errors->any())
+        @dump($errors->all()) --}}
+
+        @include('forms.errors')
+
         <form action="{{ route('form3_data') }}" method="post">
             @csrf
             <div class="mb-3">
                 <label>Name</label>
-                <input type="text" placeholder="Name" name="name" class="form-control" />
+                <input type="text" placeholder="Name" name="name" class="form-control @error('name') is-invalid @enderror" value="{{ old('name') }}" />
+                @error('name')
+                    <small class="invalid-feedback">{{ $message }}</small>
+                @enderror
+
             </div>
 
             <div class="mb-3">
                 <label>Email</label>
-                <input type="email" placeholder="Email" name="email" class="form-control" />
+                <input type="email" placeholder="Email" name="email" class="form-control @error('email') is-invalid @enderror " value="{{ old('name') }}" />
+                @error('email')
+                    <small class="invalid-feedback">{{ $message }}</small>
+                @enderror
             </div>
 
             <div class="mb-3">
                 <label>Age</label>
-                <input type="number" placeholder="Age" name="age" class="form-control" />
+                <input type="number" placeholder="Age" name="age" class="form-control @error('age') is-invalid @enderror " value="{{ old('age') }}" />
+                @error('age')
+                    <small class="invalid-feedback">{{ $message }}</small>
+                @enderror
             </div>
 
             <button class="btn btn-success">Send</button>
