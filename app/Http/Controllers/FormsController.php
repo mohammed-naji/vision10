@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\ContactUs;
+use App\Mail\TestMail;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class FormsController extends Controller
 {
@@ -83,5 +86,34 @@ class FormsController extends Controller
         $img_name = rand().'_'.rand().rand().'_'.rand().'_'.$char.'.'.$ex;
         // zina.jpg => 5654546661665_9876545646452464424_6465446_r.jpg
         $request->file('cv')->move(public_path('uploads'), $img_name);
+    }
+
+    public function contact()
+    {
+        return view('forms.contact');
+    }
+
+    public function contact_data(Request $request)
+    {
+        // validate
+        $request->validate([
+            'name' => 'required|max:30|string',
+            'email' => 'required|email',
+            'phone' => 'required|min:7|max:20',
+            'subject' => 'required|min:5|max:100',
+            'cv' => 'required|mimes:pdf,docx'
+        ]);
+
+        // upload file
+        $cv_name = rand().time().$request->file('cv')->getClientOriginalName();
+        $request->file('cv')->move(public_path('uploads/cv'), $cv_name);
+
+        // Send Mail
+        // dd($request->except('_token'));
+        $data = $request->except('_token');
+        $data['cv'] = $cv_name;
+        // dd($data);
+        // Mail::to('contact@gmail.com')->send(new TestMail());
+        Mail::to('mahmoudshareef23@gmail.com')->send(new ContactUs($data));
     }
 }
