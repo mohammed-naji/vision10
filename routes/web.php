@@ -5,6 +5,7 @@ use App\Http\Controllers\FormsController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MainController;
+use App\Http\Controllers\PostController;
 use App\Http\Controllers\Site1Controller;
 use App\Http\Controllers\Site2Controller;
 use App\Http\Controllers\Site3Controller;
@@ -137,3 +138,8 @@ Route::post('/form4', [FormsController::class, 'form4_data'])->name('form4_data'
 
 Route::get('/contact', [FormsController::class, 'contact'])->name('contact');
 Route::post('/contact', [FormsController::class, 'contact_data'])->name('contact_data');
+
+
+// CRUD Application For Posts
+
+Route::get('posts', [PostController::class, 'index'])->name('posts.index');
