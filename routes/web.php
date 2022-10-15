@@ -142,4 +142,8 @@ Route::post('/contact', [FormsController::class, 'contact_data'])->name('contact
 
 // CRUD Application For Posts
 
+// Read Data
 Route::get('posts', [PostController::class, 'index'])->name('posts.index');
+
+// Create Data
+Route::get('posts/create', [PostController::class, 'create'])->name('posts.create');

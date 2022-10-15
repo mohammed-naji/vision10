@@ -21,7 +21,17 @@
         <i class="far fa-heart"></i>
         <i class="fab fa-facebook"></i> --}}
 
-        <h2>All Posts</h2>
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2>All Posts</h2>
+            <a class="btn btn-primary px-5" href="{{ route('posts.create') }}"><i class="fas fa-plus"></i> Add New Post</a>
+        </div>
+        <form action="{{ route('posts.index') }}" method="get">
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" name="search" placeholder="Search About Anything.." value="{{ request()->search }}">
+                <button class="btn btn-success px-5" type="button" id="button-addon2"><i class="fas fa-search"></i> Search</button>
+              </div>
+        </form>
+
         <table class="table table-bordered table-hover table-striped">
             <tr class="table-dark">
                 <th>ID</th>
@@ -36,18 +46,17 @@
                 <td>{{ $post->id }}</td>
                 <td>{{ $post->title }}</td>
                 <td><img width="100" src="{{ $post->image }}" alt=""></td>
-                <td>{{ $post->created_at }}</td>
-                <td>{{ $post->updated_at }}</td>
+                <td>{{ $post->created_at->format('F d, Y') }}</td>
+                <td>{{ $post->updated_at->diffForHumans() }}</td>
                 <td>
                     <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
                     <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
                 </td>
             </tr>
             @endforeach
-
-
         </table>
+        {{-- {{ $posts->appends(['search' => request()->search])->links() }} --}}
+        {{ $posts->appends($_GET)->links() }}
     </div>
-
 </body>
 </html>
