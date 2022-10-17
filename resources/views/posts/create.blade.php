@@ -20,11 +20,13 @@
             <a class="btn btn-dark px-5" href="{{ route('posts.index') }}"><i class="fas fa-arrow-left"></i> All Posts</a>
         </div>
 
-        <form action="" method="">
+        @include('forms.errors')
+
+        <form action="{{ route('posts.store') }}" method="post" enctype="multipart/form-data">
             @csrf
             <div class="mb-3">
                 <label>Title</label>
-                <input type="text" name="title" class="form-control" placeholder="Title" />
+                <input type="text" name="title" class="form-control" placeholder="Title" value="{{ old('title') }}" />
             </div>
 
             <div class="mb-3">
@@ -34,10 +36,17 @@
 
             <div class="mb-3">
                 <label>Content</label>
-                <textarea name="content" class="form-control" placeholder="Content" rows="5"></textarea>
+                <textarea id="mytextarea" name="content" class="form-control" placeholder="Content" rows="5">{{ old('content') }}</textarea>
             </div>
             <button class="btn btn-success">Add</button>
         </form>
     </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/6.2.0/tinymce.min.js" integrity="sha512-tofxIFo8lTkPN/ggZgV89daDZkgh1DunsMYBq41usfs3HbxMRVHWFAjSi/MXrT+Vw5XElng9vAfMmOWdLg0YbA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+        tinymce.init({
+          selector: '#mytextarea'
+        });
+      </script>
 </body>
 </html>

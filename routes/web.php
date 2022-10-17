@@ -142,8 +142,15 @@ Route::post('/contact', [FormsController::class, 'contact_data'])->name('contact
 
 // CRUD Application For Posts
 
-// Read Data
+// Read All Data
 Route::get('posts', [PostController::class, 'index'])->name('posts.index');
 
 // Create Data
 Route::get('posts/create', [PostController::class, 'create'])->name('posts.create');
+Route::post('posts/store', [PostController::class, 'store'])->name('posts.store');
+
+// Read Single Data
+Route::get('posts/{id}', [PostController::class, 'show'])->name('posts.show');
+
+// Delete Single Data
+Route::delete('posts/{id}', [PostController::class, 'destroy'])->name('posts.destroy');

@@ -38,4 +38,45 @@ class PostController extends Controller
     {
         return view('posts.create');
     }
+
+    public function store(Request $request)
+    {
+        // Validate the data
+        $request->validate([
+            'title' => 'required|min:3|max:40',
+            'content' => 'required',
+            'image' => 'required|image|mimes:png,jpg,jpeg'
+        ]);
+
+
+        // Upload the files
+        $img_name = rand().time().$request->file('image')->getClientOriginalName();
+        $request->file('image')->move(public_path('uploads/posts'), $img_name);
+
+
+        // INSERT INTO posts (title, content, image) VALUES ('ffff', 'eeeeer', 'eeeee');
+        // Add data to Database
+        Post::create([
+            'title' => $request->title,
+            'content' => $request->content,
+            'image' => $img_name
+        ]);
+
+        // Redirect to the all posts
+        return redirect()->route('posts.index')->with('msg', 'Post added successfully');
+    }
+
+    public function show($id)
+    {
+        $post = Post::findOrFail($id);
+
+        return view('posts.show', compact('post'));
+    }
+
+    public function destroy($id)
+    {
+        Post::destroy($id);
+
+        return redirect()->route('posts.index')->with('msg', 'Post deleted successfully');
+    }
 }
