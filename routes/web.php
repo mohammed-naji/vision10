@@ -6,10 +6,12 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MainController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\RelationController;
 use App\Http\Controllers\Site1Controller;
 use App\Http\Controllers\Site2Controller;
 use App\Http\Controllers\Site3Controller;
 use App\Http\Controllers\SiteController;
+use App\Http\Controllers\TagController;
 
 // Route::get('url', 'Action');
 // Route::post('url', 'Action');
@@ -142,15 +144,34 @@ Route::post('/contact', [FormsController::class, 'contact_data'])->name('contact
 
 // CRUD Application For Posts
 
-// Read All Data
-Route::get('posts', [PostController::class, 'index'])->name('posts.index');
+// // Read All Data
+// Route::get('posts', [PostController::class, 'index'])->name('posts.index');
 
-// Create Data
-Route::get('posts/create', [PostController::class, 'create'])->name('posts.create');
-Route::post('posts/store', [PostController::class, 'store'])->name('posts.store');
+// // Create Data
+// Route::get('posts/create', [PostController::class, 'create'])->name('posts.create');
+// Route::post('posts/store', [PostController::class, 'store'])->name('posts.store');
 
-// Read Single Data
-Route::get('posts/{id}', [PostController::class, 'show'])->name('posts.show');
+// // Read Single Data
+// Route::get('posts/{id}', [PostController::class, 'show'])->name('posts.show');
 
-// Delete Single Data
-Route::delete('posts/{id}', [PostController::class, 'destroy'])->name('posts.destroy');
+// // Delete Single Data
+// Route::delete('posts/{id}', [PostController::class, 'destroy'])->name('posts.destroy');
+
+// // Update Data
+// Route::get('posts/{id}/edit', [PostController::class, 'edit'])->name('posts.edit');
+// Route::put('posts/{id}/update', [PostController::class, 'update'])->name('posts.update');
+
+Route::resource('posts', PostController::class);
+Route::resource('tags', TagController::class);
+
+// Route::resources([
+//     'posts' => PostController::class,
+//     'tags' => TagController::class,
+// ]);
+
+
+
+// index, create, store, show, edit, update, destroy
+
+
+Route::get('one-to-one', [RelationController::class, 'one_to_one']);

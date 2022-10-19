@@ -30,7 +30,7 @@
         </div>
 
         @if (session('msg'))
-        <div class="alert alert-success alert-dismissible fade show">
+        <div class="alert alert-{{ session('type') }} alert-dismissible fade show">
             {{ session('msg') }}
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
@@ -63,7 +63,7 @@
                 <td>{{ $post->updated_at->diffForHumans() }}</td>
                 <td>
                     <a href="{{ route('posts.show', $post->id) }}" class="btn btn-success btn-sm"><i class="fas fa-eye"></i></a>
-                    <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
+                    <a href="{{ route('posts.edit', $post->id) }}" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
                     <form class="d-inline" action="{{ route('posts.destroy', $post->id) }}" method="post">
                         @csrf
                         @method('delete')

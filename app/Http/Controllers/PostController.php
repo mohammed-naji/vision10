@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 
 class PostController extends Controller
 {
@@ -63,7 +64,7 @@ class PostController extends Controller
         ]);
 
         // Redirect to the all posts
-        return redirect()->route('posts.index')->with('msg', 'Post added successfully');
+        return redirect()->route('posts.index')->with('msg', 'Post added successfully')->with('type', 'success');
     }
 
     public function show($id)
@@ -75,8 +76,47 @@ class PostController extends Controller
 
     public function destroy($id)
     {
+        $post = Post::findOrFail($id);
+        File::delete(public_path('uploads/posts/'.$post->image));
         Post::destroy($id);
 
-        return redirect()->route('posts.index')->with('msg', 'Post deleted successfully');
+        return redirect()->route('posts.index')->with('msg', 'Post deleted successfully')->with('type', 'danger');
+    }
+
+    public function edit($id)
+    {
+        $post = Post::findOrFail($id);
+
+        return view('posts.edit', compact('post'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        // Validate the data
+        $request->validate([
+            'title' => 'required|min:3|max:40',
+            'content' => 'required',
+            'image' => 'nullable|image|mimes:png,jpg,jpeg'
+        ]);
+
+        $post = Post::findOrFail($id);
+
+        $img_name = $post->image;
+        if($request->has('image')) {            // Delete the old image
+            File::delete(public_path('uploads/posts/'.$img_name));
+
+            $img_name = rand().time().$request->file('image')->getClientOriginalName();
+            $request->file('image')->move(public_path('uploads/posts'), $img_name);
+        }
+
+
+        $post->update([
+            'title' => $request->title,
+            'content' => $request->content,
+            'image' => $img_name
+        ]);
+
+        // Redirect to the all posts
+        return redirect()->route('posts.index')->with('msg', 'Post added successfully')->with('type', 'info');
     }
 }
