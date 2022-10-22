@@ -164,6 +164,7 @@ Route::post('/contact', [FormsController::class, 'contact_data'])->name('contact
 Route::resource('posts', PostController::class);
 Route::resource('tags', TagController::class);
 
+Route::post('posts/{id}/add-comment', [PostController::class, 'add_comment'])->name('posts.add_comment');
 // Route::resources([
 //     'posts' => PostController::class,
 //     'tags' => TagController::class,
@@ -175,3 +176,4 @@ Route::resource('tags', TagController::class);
 
 
 Route::get('one-to-one', [RelationController::class, 'one_to_one']);
+Route::get('one-to-many', [RelationController::class, 'one_to_many']);

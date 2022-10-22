@@ -22,10 +22,86 @@
                     {{-- {{ $post->content }} --}}
                     {!! $post->content !!}
                 </div>
+
+                <hr>
+
+                <div class="text-start">
+                    {{-- @dump($post->mycomments) --}}
+                    <h3>Comments (<span class="count">{{ $post->mycomments->count() }}</span>)</h3>
+
+                    <div class="comments-section">
+                        @if ($post->mycomments->count() > 0)
+                            @foreach ($post->mycomments as $abc)
+                            <div class="d-flex align-items-center mb-2">
+                                <h5 class="m-0">{{ $abc->user->name }}</h5>
+                                <small class="mx-3">{{ $abc->created_at->diffForHumans() }}</small>
+                            </div>
+                            <p>{{ $abc->comment }}</p>
+                            <hr>
+                            @endforeach
+                        @else
+                            <p>There is no comments yet. Be the first one</p>
+                        @endif
+                    </div>
+
+
+                    <br>
+                    <h4>Add New Comment</h4>
+                    <form action="{{ route('posts.add_comment', $post->id) }}" method="POST">
+                        @csrf
+                        <div class="mb-4">
+                            <textarea rows="5" name="comment" class="form-control" placeholder="Comment here.."></textarea>
+                        </div>
+
+                        <button class="btn btn-dark">Comment</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+
+    <script>
+        $('form').submit(function(e) {
+            e.preventDefault();
+
+            let com = $('form textarea').val();
+
+            $.ajax({
+                type: 'post',
+                url: '{{ route("posts.add_comment", $post->id) }}',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    comment: com
+                },
+                success: function(res) {
+                    console.log(res);
+                    $('form textarea').val('')
+
+                    let item = `
+                        <div class="d-flex align-items-center mb-2">
+                            <h5 class="m-0">${res.user}</h5>
+                            <small class="mx-3">${res.time}</small>
+                        </div>
+                        <p>${res.comment}</p>
+                        <hr>
+                    `
+
+                    $('.comments-section').append(item)
+
+                    var count = parseInt($('span.count').text()) + 1;
+
+                    // console.log(count);
+                    $('span.count').text(count)
+                }
+            })
+
+            // console.log(comment);
+        })
+    </script>
+
 </body>
 </html>

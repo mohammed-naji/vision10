@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Comment;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
@@ -118,5 +119,23 @@ class PostController extends Controller
 
         // Redirect to the all posts
         return redirect()->route('posts.index')->with('msg', 'Post added successfully')->with('type', 'info');
+    }
+
+    public function add_comment(Request $request, $id)
+    {
+        // dd($request->all());
+        $comment = Comment::create([
+            'comment' => $request->comment,
+            'post_id' => $id,
+            'user_id' => 2
+        ]);
+
+        return [
+            'user' => $comment->user->name,
+            'time' => $comment->created_at->diffForHumans(),
+            'comment' => $comment->comment
+        ];
+
+        // return redirect()->back();
     }
 }
