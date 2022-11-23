@@ -177,3 +177,7 @@ Route::post('posts/{id}/add-comment', [PostController::class, 'add_comment'])->n
 
 Route::get('one-to-one', [RelationController::class, 'one_to_one']);
 Route::get('one-to-many', [RelationController::class, 'one_to_many']);
+
+
+Route::get('register-subjects', [RelationController::class, 'register_subjects']);
+Route::post('register-subjects', [RelationController::class, 'register_subjects_data'])->name('register_subjects_data');
